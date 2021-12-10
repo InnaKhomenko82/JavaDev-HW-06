@@ -15,7 +15,7 @@
 
     <div class="row">
 
-        <table class="table">
+        <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">id</th>
@@ -32,7 +32,7 @@
                     <td>
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                             <div class="btn-group me-2" role="group" aria-label="Second group">
-                                <a href="/company/<c:out value = '${company.id}'/>" type="button" class="btn btn-warning">📝</a>
+                                <a href="/companies/<c:out value = '${company.id}'/>" type="button" class="btn btn-warning">📝</a>
                                 <a href="/companies?deleteId=<c:out value = '${company.id}'/>" type="button" class="btn btn-danger">🗑</a>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
         </table>
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group me-2" role="group" aria-label="Second group">
-                <a href="/company/company.jsp" type="button" class="btn btn-primary">+</a>
+                <a href="/companies/new" type="button" class="btn btn-primary">+</a>
             </div>
         </div>
     </div>

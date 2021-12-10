@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @WebServlet("/developers/*")
 public class DeveloperServlet extends HttpServlet{
+
     private CrudRepository<Long, Developer> repository;
 
     public DeveloperServlet() {
@@ -29,7 +30,6 @@ public class DeveloperServlet extends HttpServlet{
 
         String[] split = req.getRequestURI().split("/");
         if (split.length==3 && "new".equals(split[2])){
-            System.out.println("new");
             req.setAttribute("developer", new Developer());
             req.getRequestDispatcher("/developer/developer.jsp").forward(req, resp);
         }
@@ -42,7 +42,6 @@ public class DeveloperServlet extends HttpServlet{
         if (deleteId != null) {
             Optional<Developer> developer = new DeveloperService().readById(Developer.class, Long.valueOf(deleteId));
             if (developer.isPresent()){
-                System.out.println("Deleting entity: " + developer.get());
                 new DeveloperService().deleteById(Developer.class, Long.valueOf(deleteId));
             }
             resp.sendRedirect("/developers");
@@ -51,6 +50,14 @@ public class DeveloperServlet extends HttpServlet{
             req.setAttribute("developers", developers);
             req.getRequestDispatcher("/developer/developers.jsp").forward(req, resp);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("post");
+        HandleBodyUtil.getModelFromStream(req.getInputStream(), Developer.class)
+                .ifPresent(developer -> {repository.save(developer);});
+        req.getRequestDispatcher("/developer/developer.jsp").forward(req, resp);
     }
 
     @Override

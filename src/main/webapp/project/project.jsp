@@ -1,19 +1,20 @@
-<%@ page import="ua.goit.models.Company" %>
+<%@ page import="ua.goit.models.Project" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Company</title>
+    <title>Project</title>
     <%@ include file="../headers.jsp" %>
 </head>
 <body>
 <%@ include file="../navigation.jsp" %>
-<%ua.goit.models.Company company = (Company) request.getAttribute("company"); %>
+
+<%ua.goit.models.Project project = (Project) request.getAttribute("project"); %>
 
 <div class="container">
     <div class="row">
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
             <div class="btn-group me-2" role="group" aria-label="Second group">
-                <a href="/companies" type="button" class="btn btn-success">All companies</a>
+                <a href="/projects" type="button" class="btn btn-success">All projects</a>
             </div>
         </div>
     </div>
@@ -21,21 +22,28 @@
         <div class="mb-3">
             <label for="id" class="form-label">id</label>
             <input type="text" disabled class="form-control"
-                   value="${company.id}"
+                   value="${project.id}"
                    id="id" placeholder="id">
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">name</label>
             <input type="text" class="form-control"
-                   value="${company.name}"
+                   value="${project.name}"
                    id="name" placeholder="name">
         </div>
         <div class="mb-3">
-            <label for="quantityStaff" class="form-label">quantity staff</label>
-            <input type="text" class="form-control"
-                   value="${company.quantityStaff}"
-                   id="quantityStaff" placeholder="quantityStaff">
+            <label for="projectStart" class="form-label">projectStart</label>
+            <input type="date" class="form-control"
+                   value="${project.projectStart}"
+                   id="projectStart" placeholder="projectStart">
         </div>
+        <div class="mb-3">
+            <label for="cost" class="form-label">cost</label>
+            <input type="text" class="form-control"
+                   value="${project.cost}"
+                   id="cost" placeholder="cost">
+        </div>
+
         <div class="row">
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group me-2" role="group" aria-label="Second group">
@@ -48,19 +56,21 @@
 <script>
     let id = document.getElementById('id');
     let name = document.getElementById('name');
-    let quantityStaff = document.getElementById('quantityStaff');
+    let projectStart = document.getElementById('projectStart');
+    let cost = document.getElementById('cost');
     function save() {
         let body = {
-            <% if(company.getId() != null) {%>
+            <% if(project.getId() != null) {%>
             id: id.value, <% } %>
             name: name.value,
-            quantityStaff: quantityStaff.value,
+            projectStart: projectStart.value,
+            cost: cost.value,
         }
-        <% if(company.getId() == null) {%>
-        let url = '/companies';
+        <% if(project.getId() == null) {%>
+        let url = '/projects';
         let method = 'POST';
         <% } else { %>
-        let url = '/companies/<%= company.getId() %>';
+        let url = '/projects/<%= project.getId() %>';
         let method = 'PUT';
         <% } %>
         fetch(url, {
@@ -68,7 +78,7 @@
             body: JSON.stringify(body)
         })
             .then( _ => {
-                    window.location.href = '/companies';
+                    window.location.href = '/projects';
                 }
             );
     }

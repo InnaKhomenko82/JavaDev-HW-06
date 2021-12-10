@@ -4,6 +4,7 @@ import ua.goit.models.Company;
 import ua.goit.repository.CrudRepository;
 import ua.goit.repository.RepositoryFactory;
 import ua.goit.service.CompanyService;
+import ua.goit.util.HandleBodyUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@WebServlet("/companies")
+@WebServlet("/companies/*")
 public class CompanyServlet extends HttpServlet {
 
     private CrudRepository<Long, Company> repository;
@@ -27,6 +28,18 @@ public class CompanyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        String[] split = req.getRequestURI().split("/");
+        if (split.length==3 && "new".equals(split[2])){
+            req.setAttribute("company", new Company());
+            req.getRequestDispatcher("/company/company.jsp").forward(req, resp);
+        }
+        if (split.length==3){
+            Company company = repository.findById(Long.valueOf(split[2])).get();
+            req.setAttribute("company", company);
+            req.getRequestDispatcher("/company/company.jsp").forward(req, resp);
+        }
+
         String deleteId = req.getParameter("deleteId");
         if (deleteId != null) {
             Optional<Company> company = new CompanyService().readById(Company.class, Long.valueOf(deleteId));
@@ -40,5 +53,19 @@ public class CompanyServlet extends HttpServlet {
             req.setAttribute("companies", companies);
             req.getRequestDispatcher("/company/companies.jsp").forward(req, resp);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HandleBodyUtil.getModelFromStream(req.getInputStream(), Company.class)
+                .ifPresent(company -> {repository.save(company);});
+        req.getRequestDispatcher("/company/company.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HandleBodyUtil.getModelFromStream(req.getInputStream(), Company.class)
+                .ifPresent(company -> {repository.save(company);});
+        req.getRequestDispatcher("/company/company.jsp").forward(req, resp);
     }
 }

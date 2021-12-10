@@ -9,26 +9,19 @@
 
 <div class="container">
     <div class="row">
-        <h2>Queries</h2>
+        <h2>База данных содержит следующие таблицы:</h2>
     </div>
     <div class="row">
-        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <div class="btn-group me-2" role="group" aria-label="Second group">
-                <a href="/query/listDevsInProject" type="button" class="btn btn-primary">List Developers in a Project</a>
-            </div>
-            <div class="btn-group me-2" role="group" aria-label="Second group">
-                <a href="/query/ListDevsWithLevel" type="button" class="btn btn-primary">List Developers with Level</a>
-            </div>
-            <div class="btn-group me-2" role="group" aria-label="Second group">
-                <a href="/query/ListDevsWithSkill" type="button" class="btn btn-primary">List Developers with Skill</a>
-            </div>
-            <div class="btn-group me-2" role="group" aria-label="Second group">
-                <a href="/query/ListOfProjects" type="button" class="btn btn-primary">List of Projects</a>
-            </div>
-            <div class="btn-group me-2" role="group" aria-label="Second group">
-                <a href="/query/SalaryByProjectName" type="button" class="btn btn-primary">Salary by Project</a>
-            </div>
-        </div>
+     <ul>
+        <li> developers (хранит данные о разработчиках(имя, возраст, пол и прочее))</li>
+        <li> skills (отрасль – Java, C++, C#, JS; уровень навыков - Junior, Middle, Senior)</li>
+        <li> projects (проекты, на которых работают разработчики)</li>
+        <li> companies (IT компании, в которых работают разработчики)</li>
+        <li> customers (клиенты, которые являются заказчиками проектов в IT компаниях)</li>
+    </ul>
+        При помощи JSP и Servlets реализон клиент для работы с JDBC.<br>
+        Обеспечена удобная работа с CRUD операциями.<br>
+        Реализован паттерн MVC.
     </div>
 </div>
 </body>
